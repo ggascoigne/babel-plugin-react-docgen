@@ -14,12 +14,12 @@
  *
  */
 
-import { utils } from 'react-docgen';
 import { namedTypes as types } from 'ast-types';
+import { utils } from 'react-docgen';
 
-const { getMemberValuePath, getNameOrValue, resolveFunctionDefinitionToReturnValue, resolveToValue } = utils;
+const { getNameOrValue, isReactForwardRefCall } = utils;
 
-export default function actualNameHandler(documentation, path) {
+export default function actualNameHandler(documentation, path, importer) {
   // Function and class declarations need special treatment. The name of the
   // function / class is the displayName
   if (
@@ -30,13 +30,27 @@ export default function actualNameHandler(documentation, path) {
   } else if (
     types.ArrowFunctionExpression.check(path.node) ||
     types.FunctionExpression.check(path.node) ||
-    // React.forwardRef
-    types.CallExpression.check(path.node)
+    isReactForwardRefCall(path, importer)
   ) {
-    if (types.VariableDeclarator.check(path.parentPath.node)) {
-      documentation.set('actualName', getNameOrValue(path.parentPath.get('id')));
-    } else if (types.AssignmentExpression.check(path.parentPath.node)) {
-      documentation.set('actualName', getNameOrValue(path.parentPath.get('left')));
+    let currentPath = path;
+    while (currentPath.parent) {
+      if (types.VariableDeclarator.check(currentPath.parent.node)) {
+        documentation.set(
+          'actualName',
+          getNameOrValue(currentPath.parent.get('id')),
+        );
+        return;
+      } else if (types.AssignmentExpression.check(currentPath.parent.node)) {
+        const leftPath = currentPath.parent.get('left');
+        if (
+          types.Identifier.check(leftPath.node) ||
+          types.Literal.check(leftPath.node)
+        ) {
+          documentation.set('actualName', getNameOrValue(leftPath));
+          return;
+        }
+      }
+      currentPath = currentPath.parent;
     }
   } else if (
       // React.createClass() or createReactClass()
@@ -48,16 +62,4 @@ export default function actualNameHandler(documentation, path) {
     // Could not find an actual name
     documentation.set('actualName', '');
   }
-  return;
-
-  // If display name is defined as a getter we get a function expression as
-  // value. In that case we try to determine the value from the return
-  // statement.
-  if (types.FunctionExpression.check(displayNamePath.node)) {
-    displayNamePath = resolveFunctionDefinitionToReturnValue(displayNamePath);
-  }
-  if (!displayNamePath || !types.Literal.check(displayNamePath.node)) {
-    return;
-  }
-  documentation.set('actualName', displayNamePath.node.value);
 }
