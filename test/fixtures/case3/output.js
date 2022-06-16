@@ -17,7 +17,7 @@ var Button = function Button(_ref) {
       onClick = _ref.onClick,
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style;
-  return _react[\\"default\\"].createElement(\\"button\\", {
+  return /*#__PURE__*/_react[\\"default\\"].createElement(\\"button\\", {
     style: {},
     onClick: onClick
   }, children);

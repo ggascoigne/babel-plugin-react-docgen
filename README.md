@@ -1,3 +1,11 @@
+# Warning
+
+This is a forked version.
+
+* Changed to add support for "react-docgen": "^6.0.0-alpha.3", based on the fork at https://github.com/nearform/babel-plugin-react-docgen.
+* Updated to use a pattern for finding the actualName that is closer to the working one in react-docgen (which matters for certain typescript declarations).
+* updated to use a more recent version of babel.
+
 # babel-plugin-react-docgen
 
 [react-docgen](https://github.com/reactjs/react-docgen) allows you to write propType descriptions, class descriptions and access propType metadata programatically.

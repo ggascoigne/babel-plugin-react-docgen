@@ -15,10 +15,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { \\
 /**
  * forwardRef Wrapped Component
  */
-var ErrorBox = _react[\\"default\\"].forwardRef(function (_ref, ref) {
+var ErrorBox = /*#__PURE__*/_react[\\"default\\"].forwardRef(function (_ref, ref) {
   var children = _ref.children,
       color = _ref.color;
-  return _react[\\"default\\"].createElement(\\"div\\", {
+  return /*#__PURE__*/_react[\\"default\\"].createElement(\\"div\\", {
     className: \\"error-box\\",
     style: {
       color: color

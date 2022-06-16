@@ -25,9 +25,9 @@ var ComponentWrapper = React.createClass({
     };
   },
   render: function render() {
-    return React.createElement(\\"div\\", {
+    return /*#__PURE__*/React.createElement(\\"div\\", {
       className: stylesheet[this.props.theme]
-    }, React.createElement(\\"div\\", {
+    }, /*#__PURE__*/React.createElement(\\"div\\", {
       className: stylesheet.container
     }, this.props.children));
   }

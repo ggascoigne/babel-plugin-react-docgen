@@ -49,9 +49,11 @@ function injectReactDocgenInfo(path, state, code, t) {
     }
 
     const handlers = [...defaultHandlers, ...customHandlers, actualNameHandler];
+    const targetImporter = ReactDocgen.importers[opts.importer] || ReactDocgen.importers.makeFsImporter;
     docgenResults = ReactDocgen.parse(code, resolver, handlers, {
       ...opts,
       filename,
+      importer: targetImporter(),
     });
 
     if (docgenResults && !Array.isArray(docgenResults)) {
@@ -71,7 +73,6 @@ function injectReactDocgenInfo(path, state, code, t) {
 
   docgenResults.forEach(function(docgenResult, index) {
     let exportName = docgenResult.actualName;
-
     // If the result doesn't have an actualName,
     // it's probably on arrow functions.
     if (!exportName) {
@@ -88,7 +89,6 @@ function injectReactDocgenInfo(path, state, code, t) {
     );
 
     const exportPath = program.get('body').find(node => isExportCurrent(node, exportName, t));
-
     if (exportPath) {
       exportPath.insertBefore(docgenInfo);
     } else {

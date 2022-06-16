@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { \\
 var Kitten = function Kitten(_ref) {
   var isWide = _ref.isWide,
       isLong = _ref.isLong;
-  return _react[\\"default\\"].createElement('img', {
+  return /*#__PURE__*/_react[\\"default\\"].createElement('img', {
     width: isWide ? '500' : '200',
     height: isLong ? '500' : '200',
     src: 'http://placekitten.com.s3.amazonaws.com/homepage-samples/200/287.jpg'

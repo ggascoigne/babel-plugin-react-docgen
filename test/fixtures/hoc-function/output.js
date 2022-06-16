@@ -21,7 +21,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { \\
 var TestComponent = function TestComponent(props) {
   var text = props.text,
       onClick = props.onClick;
-  return _react[\\"default\\"].createElement(\\"div\\", null, _react[\\"default\\"].createElement(\\"div\\", null, \\"Text: \\", text), _react[\\"default\\"].createElement(\\"button\\", {
+  return /*#__PURE__*/_react[\\"default\\"].createElement(\\"div\\", null, /*#__PURE__*/_react[\\"default\\"].createElement(\\"div\\", null, \\"Text: \\", text), /*#__PURE__*/_react[\\"default\\"].createElement(\\"button\\", {
     onClick: onClick
   }, \\"Button\\"));
 };
